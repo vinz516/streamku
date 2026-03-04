@@ -7,8 +7,9 @@ const SB_URL = "https://wakwbmuanzglmawqzopi.supabase.co"
 const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indha3dibXVhbnpnbG1hd3F6b3BpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMDc5MjYsImV4cCI6MjA4NTY4MzkyNn0.oVcKaJY9-RNu4QSk32fi3h8Lb-mBm4FXFuEfwKFmLZo"
 const supabase = createClient(SB_URL, SB_KEY)
 
-// LINK TELEGRAM KAMU (Ganti dengan link channel kamu)
+// CONFIGURATION
 const TELEGRAM_CHANNEL = "https://t.me/+d9TcoaiEqwQ3M2U1" 
+const ADSTERRA_DIRECT_LINK = "https://www.effectivegatecpm.com/hg27i5eg6?key=58350889f5d56c4a6e8d2eaf93afe9aa"
 
 export default function WatchPage() {
   const { id } = useParams()
@@ -77,9 +78,50 @@ export default function WatchPage() {
           <iframe src={video.url} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }} allowFullScreen />
         </div>
 
-        {/* --- BANNER JOIN TELEGRAM (BARU) --- */}
+        {/* --- TOMBOL DIRECT LINK (CUAN BOOSTER) --- */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '20px' }}>
+          <a 
+            href={ADSTERRA_DIRECT_LINK} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={{
+              background: 'linear-gradient(90deg, #E50914, #B20710)',
+              color: '#fff',
+              textAlign: 'center',
+              padding: '15px',
+              borderRadius: '8px',
+              textDecoration: 'none',
+              fontWeight: 'bold',
+              fontSize: '1rem',
+              boxShadow: '0 4px 15px rgba(229, 9, 20, 0.3)'
+            }}
+          >
+            🚀 NONTON KUALITAS HD (SERVER 2)
+          </a>
+
+          <a 
+            href={ADSTERRA_DIRECT_LINK} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={{
+              background: '#222',
+              color: '#fff',
+              textAlign: 'center',
+              padding: '12px',
+              borderRadius: '8px',
+              textDecoration: 'none',
+              fontWeight: 'bold',
+              fontSize: '0.9rem',
+              border: '1px solid #444'
+            }}
+          >
+            📥 DOWNLOAD FILM INI (720p / 1080p)
+          </a>
+        </div>
+
+        {/* BANNER JOIN TELEGRAM */}
         <div style={{ 
-          marginTop: '20px', 
+          marginTop: '15px', 
           background: 'linear-gradient(90deg, #0088cc, #00aaff)', 
           padding: '15px', 
           borderRadius: '10px', 
@@ -100,7 +142,7 @@ export default function WatchPage() {
             textDecoration: 'none', 
             fontSize: '0.8rem', 
             fontWeight: 'bold' 
-          }}>JOIN SEKARANG</a>
+          }}>JOIN</a>
         </div>
 
         {/* INFO & SHARE */}
