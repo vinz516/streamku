@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
         {/* IKLAN ADSTERRA */}
         <Script 
           src="https://pl28804322.effectivegatecpm.com/19/e6/a7/19e6a7bd62bc2b7a01520f263322c8af.js" 
-          strategy="afterInteractive" 
+          strategy="beforeInteractive" 
         />
 
         {/* HISTATS - ID: 5006689 */}
