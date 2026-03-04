@@ -12,13 +12,19 @@ export default function RootLayout({ children }) {
   return (
     <html lang="id">
       <head>
-        {/* IKLAN ADSTERRA */}
+        {/* OPTIMASI KONEKSI (DNS PREFETCH & PRECONNECT) */}
+        <link rel="dns-prefetch" href="https://pl28804322.effectivegatecpm.com" />
+        <link rel="dns-prefetch" href="https://s10.histats.com" />
+        <link rel="preconnect" href="https://pl28804322.effectivegatecpm.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://images.weserv.nl" crossOrigin="anonymous" />
+
+        {/* IKLAN ADSTERRA - Siap tempur sebelum interaksi */}
         <Script 
           src="https://pl28804322.effectivegatecpm.com/19/e6/a7/19e6a7bd62bc2b7a01520f263322c8af.js" 
           strategy="beforeInteractive" 
         />
 
-        {/* HISTATS - ID: 5006689 */}
+        {/* HISTATS - Statistik pengunjung */}
         <Script id="histats-async" strategy="afterInteractive">
           {`
             var _Hasync= _Hasync|| [];
@@ -36,7 +42,7 @@ export default function RootLayout({ children }) {
       <body style={{ margin: 0, backgroundColor: '#000', color: '#fff', minHeight: '100vh' }}>
         {children}
 
-        {/* TOMBOL TELEGRAM */}
+        {/* TOMBOL TELEGRAM MELAYANG */}
         <div style={{ position: 'fixed', bottom: '25px', right: '20px', zIndex: 10000 }}>
           <a 
             href={TELEGRAM_LINK}
@@ -71,7 +77,7 @@ export default function RootLayout({ children }) {
           </a>
         </div>
 
-        {/* NOSCRIPT BACKUP UNTUK HISTATS */}
+        {/* BACKUP HISTATS */}
         <noscript>
           <a href="/" target="_blank">
             <img src="//sstatic1.histats.com/0.gif?5006689&101" alt="histats counter" border="0" />
