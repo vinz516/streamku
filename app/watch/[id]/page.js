@@ -12,7 +12,7 @@ const TELEGRAM_CHANNEL = "https://t.me/+d9TcoaiEqwQ3M2U1"
 const ADSTERRA_LINK = "https://www.effectivegatecpm.com/hg27i5eg6?key=58350889f5d56c4a6e8d2eaf93afe9aa"
 const SHOPEE_1 = "https://s.shopee.co.id/8zzw008PFz"
 const SHOPEE_2 = "https://s.shopee.co.id/4qAUISsBIg"
-const LIMIT_POPUP = 3; // Batas muncul pop-up per hari
+const LIMIT_POPUP = 3; 
 
 export default function WatchPage() {
   const { id } = useParams()
@@ -42,25 +42,23 @@ export default function WatchPage() {
     if (data) setRelated(data.filter(v => v.id != id))
   }
 
-  // --- LOGIKA LIMIT POP-UP & ROTASI ---
   const checkPopupLimit = () => {
     const today = new Date().toDateString();
     const lastDate = localStorage.getItem('popup_date');
     let count = parseInt(localStorage.getItem('popup_count') || '0');
-
     if (lastDate !== today) {
       localStorage.setItem('popup_date', today);
       localStorage.setItem('popup_count', '0');
       count = 0;
     }
-
     if (count < LIMIT_POPUP) setShowAgePopup(true);
   }
 
+  // --- FIX LOGIKA KLIK RAMAH MOBILE ---
   const handleCuanClick = (e) => {
     if (e) e.preventDefault();
     
-    // Hitung klik untuk rotasi link
+    // 1. Tentukan Link Tujuan (Rotasi)
     let sessionClicks = parseInt(sessionStorage.getItem('total_clicks') || '0');
     sessionClicks++;
     sessionStorage.setItem('total_clicks', sessionClicks);
@@ -71,13 +69,20 @@ export default function WatchPage() {
       targetUrl = links[Math.floor(Math.random() * links.length)];
     }
 
-    window.open(targetUrl, '_blank');
-    
-    // Jika diklik dari popup, kurangi jatah popup harian
+    // 2. Jika dari Pop-up, Berikan Jeda agar HP tidak Freeze
     if (showAgePopup) {
       let count = parseInt(localStorage.getItem('popup_count') || '0');
       localStorage.setItem('popup_count', (count + 1).toString());
-      setShowAgePopup(false);
+      
+      setShowAgePopup(false); // Tutup Pop-up Dulu
+
+      // Jeda 500ms baru buka iklan (Solusi HP Lemot/Iklan Brutal)
+      setTimeout(() => {
+        window.open(targetUrl, '_blank');
+      }, 500);
+    } else {
+      // Klik biasa dari tombol di bawah player
+      window.open(targetUrl, '_blank');
     }
   };
 
@@ -106,7 +111,6 @@ export default function WatchPage() {
   return (
     <div style={{ backgroundColor: '#000', color: '#fff', minHeight: '100vh', fontFamily: 'sans-serif', position: 'relative' }}>
       
-      {/* --- POP-UP VERIFIKASI (3X SEHARI) --- */}
       {showAgePopup && (
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.98)', zIndex: 99999, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
           <div style={{ background: '#111', padding: '30px', borderRadius: '15px', textAlign: 'center', maxWidth: '400px', border: '1px solid #E50914', boxShadow: '0 0 40px rgba(229, 9, 20, 0.4)' }}>
@@ -117,7 +121,6 @@ export default function WatchPage() {
         </div>
       )}
 
-      {/* NAVBAR */}
       <nav style={{ padding: '10px 5%', background: '#000', borderBottom: '1px solid #222', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 100 }}>
         <a href="/" style={{ color: '#E50914', textDecoration: 'none', fontWeight: 'bold' }}>← BERANDA</a>
         <form onSubmit={handleSearch}>
@@ -126,13 +129,10 @@ export default function WatchPage() {
       </nav>
 
       <div style={{ padding: '20px 5%', maxWidth: '1000px', margin: '0 auto' }}>
-        
-        {/* PLAYER */}
         <div style={{ position: 'relative', paddingTop: '56.25%', background: '#111', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 0 20px rgba(229, 9, 20, 0.2)' }}>
           <iframe src={video.url} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }} allowFullScreen />
         </div>
 
-        {/* --- TOMBOL CUAN ROTASI --- */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '20px' }}>
           <button onClick={handleCuanClick} style={{ background: 'linear-gradient(90deg, #FFD700, #FFA500)', color: '#000', textAlign: 'center', padding: '16px', borderRadius: '8px', border: 'none', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', boxShadow: '0 4px 15px rgba(255, 215, 0, 0.3)', textTransform: 'uppercase' }}>
             🔥 NONTON SERVER HD (FULL SPEED)
@@ -142,7 +142,6 @@ export default function WatchPage() {
           </button>
         </div>
 
-        {/* JOIN TELEGRAM */}
         <div style={{ marginTop: '15px', background: 'linear-gradient(90deg, #0088cc, #00aaff)', padding: '15px', borderRadius: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <h4 style={{ margin: 0, fontSize: '0.9rem' }}>Update Film Terbaru?</h4>
@@ -151,7 +150,6 @@ export default function WatchPage() {
           <a href={TELEGRAM_CHANNEL} target="_blank" rel="noopener noreferrer" style={{ background: '#fff', color: '#0088cc', padding: '8px 15px', borderRadius: '5px', textDecoration: 'none', fontSize: '0.8rem', fontWeight: 'bold' }}>JOIN</a>
         </div>
 
-        {/* INFO & SHARE (SUDAH KEMBALI) */}
         <div style={{ marginTop: '20px' }}>
           <h1 style={{ fontSize: '1.2rem', marginBottom: '15px' }}>{video.title}</h1>
           <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', flexWrap: 'wrap' }}>
@@ -163,7 +161,6 @@ export default function WatchPage() {
           <div style={{ height: '1px', background: '#222', width: '100%', marginBottom: '30px' }}></div>
         </div>
 
-        {/* REKOMENDASI */}
         <h3 style={{ fontSize: '1rem', color: '#E50914', marginBottom: '15px' }}>REKOMENDASI UNTUKMU</h3>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '15px' }}>
           {related.map((v) => (
