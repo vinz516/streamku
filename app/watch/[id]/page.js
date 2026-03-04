@@ -9,7 +9,9 @@ const supabase = createClient(SB_URL, SB_KEY)
 
 // CONFIGURATION
 const TELEGRAM_CHANNEL = "https://t.me/+d9TcoaiEqwQ3M2U1" 
-const ADSTERRA_DIRECT_LINK = "https://www.effectivegatecpm.com/hg27i5eg6?key=58350889f5d56c4a6e8d2eaf93afe9aa"
+const ADSTERRA_LINK = "https://www.effectivegatecpm.com/hg27i5eg6?key=58350889f5d56c4a6e8d2eaf93afe9aa"
+const SHOPEE_1 = "https://s.shopee.co.id/8zzw008PFz"
+const SHOPEE_2 = "https://s.shopee.co.id/4qAUISsBIg"
 
 export default function WatchPage() {
   const { id } = useParams()
@@ -36,6 +38,26 @@ export default function WatchPage() {
     const { data } = await supabase.from('videos').select('*').limit(12).order('id', { ascending: false })
     if (data) setRelated(data.filter(v => v.id != id))
   }
+
+  // --- LOGIKA ROTASI KLIK (ADSTERRA + 2 SHOPEE) ---
+  const handleCuanClick = (e) => {
+    e.preventDefault();
+    
+    // Gunakan sessionStorage agar hitungan reset setiap user buka tab baru (biar Adsterra dapat klik pertama lagi)
+    let clickCount = parseInt(sessionStorage.getItem('total_clicks') || '0');
+    clickCount++;
+    sessionStorage.setItem('total_clicks', clickCount);
+
+    let targetUrl = ADSTERRA_LINK; // Default klik pertama
+
+    if (clickCount > 1) {
+      // Klik ke-2 dan seterusnya diacak antara 3 link ini
+      const links = [ADSTERRA_LINK, SHOPEE_1, SHOPEE_2];
+      targetUrl = links[Math.floor(Math.random() * links.length)];
+    }
+
+    window.open(targetUrl, '_blank');
+  };
 
   const handleSearch = (e) => {
     e.preventDefault()
@@ -78,71 +100,52 @@ export default function WatchPage() {
           <iframe src={video.url} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }} allowFullScreen />
         </div>
 
-        {/* --- TOMBOL DIRECT LINK (CUAN BOOSTER) --- */}
+        {/* --- TOMBOL STRATEGI CUAN (ROTASI) --- */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '20px' }}>
-          <a 
-            href={ADSTERRA_DIRECT_LINK} 
-            target="_blank" 
-            rel="noopener noreferrer"
+          <button 
+            onClick={handleCuanClick}
             style={{
-              background: 'linear-gradient(90deg, #E50914, #B20710)',
-              color: '#fff',
+              background: 'linear-gradient(90deg, #FFD700, #FFA500)',
+              color: '#000',
               textAlign: 'center',
-              padding: '15px',
+              padding: '16px',
               borderRadius: '8px',
-              textDecoration: 'none',
+              border: 'none',
               fontWeight: 'bold',
               fontSize: '1rem',
-              boxShadow: '0 4px 15px rgba(229, 9, 20, 0.3)'
+              cursor: 'pointer',
+              boxShadow: '0 4px 15px rgba(255, 215, 0, 0.3)',
+              textTransform: 'uppercase'
             }}
           >
-            🚀 NONTON KUALITAS HD (SERVER 2)
-          </a>
+            🔥 NONTON SERVER HD (FULL SPEED)
+          </button>
 
-          <a 
-            href={ADSTERRA_DIRECT_LINK} 
-            target="_blank" 
-            rel="noopener noreferrer"
+          <button 
+            onClick={handleCuanClick}
             style={{
               background: '#222',
               color: '#fff',
               textAlign: 'center',
               padding: '12px',
               borderRadius: '8px',
-              textDecoration: 'none',
+              border: '1px solid #444',
               fontWeight: 'bold',
               fontSize: '0.9rem',
-              border: '1px solid #444'
+              cursor: 'pointer'
             }}
           >
-            📥 DOWNLOAD FILM INI (720p / 1080p)
-          </a>
+            📥 DOWNLOAD FILM (MULTI RESOLUSI)
+          </button>
         </div>
 
-        {/* BANNER JOIN TELEGRAM */}
-        <div style={{ 
-          marginTop: '15px', 
-          background: 'linear-gradient(90deg, #0088cc, #00aaff)', 
-          padding: '15px', 
-          borderRadius: '10px', 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          boxShadow: '0 4px 15px rgba(0, 136, 204, 0.3)'
-        }}>
+        {/* JOIN TELEGRAM */}
+        <div style={{ marginTop: '15px', background: 'linear-gradient(90deg, #0088cc, #00aaff)', padding: '15px', borderRadius: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
-            <h4 style={{ margin: 0, fontSize: '0.9rem' }}>Update Film Terbaru?</h4>
-            <p style={{ margin: 0, fontSize: '0.7rem', opacity: 0.9 }}>Yuk join channel Telegram kita!</p>
+            <h4 style={{ margin: 0, fontSize: '0.9rem' }}>Butuh Judul Lain?</h4>
+            <p style={{ margin: 0, fontSize: '0.7rem', opacity: 0.9 }}>Join grup Telegram kita sekarang!</p>
           </div>
-          <a href={TELEGRAM_CHANNEL} target="_blank" rel="noopener noreferrer" style={{ 
-            background: '#fff', 
-            color: '#0088cc', 
-            padding: '8px 15px', 
-            borderRadius: '5px', 
-            textDecoration: 'none', 
-            fontSize: '0.8rem', 
-            fontWeight: 'bold' 
-          }}>JOIN</a>
+          <a href={TELEGRAM_CHANNEL} target="_blank" rel="noopener noreferrer" style={{ background: '#fff', color: '#0088cc', padding: '8px 15px', borderRadius: '5px', textDecoration: 'none', fontSize: '0.8rem', fontWeight: 'bold' }}>JOIN</a>
         </div>
 
         {/* INFO & SHARE */}
