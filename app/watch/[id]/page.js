@@ -54,11 +54,9 @@ export default function WatchPage() {
     if (count < LIMIT_POPUP) setShowAgePopup(true);
   }
 
-  // --- FIX LOGIKA KLIK RAMAH MOBILE ---
   const handleCuanClick = (e) => {
     if (e) e.preventDefault();
     
-    // 1. Tentukan Link Tujuan (Rotasi)
     let sessionClicks = parseInt(sessionStorage.getItem('total_clicks') || '0');
     sessionClicks++;
     sessionStorage.setItem('total_clicks', sessionClicks);
@@ -69,19 +67,14 @@ export default function WatchPage() {
       targetUrl = links[Math.floor(Math.random() * links.length)];
     }
 
-    // 2. Jika dari Pop-up, Berikan Jeda agar HP tidak Freeze
     if (showAgePopup) {
       let count = parseInt(localStorage.getItem('popup_count') || '0');
       localStorage.setItem('popup_count', (count + 1).toString());
-      
-      setShowAgePopup(false); // Tutup Pop-up Dulu
-
-      // Jeda 500ms baru buka iklan (Solusi HP Lemot/Iklan Brutal)
+      setShowAgePopup(false);
       setTimeout(() => {
         window.open(targetUrl, '_blank');
       }, 500);
     } else {
-      // Klik biasa dari tombol di bawah player
       window.open(targetUrl, '_blank');
     }
   };
@@ -129,8 +122,15 @@ export default function WatchPage() {
       </nav>
 
       <div style={{ padding: '20px 5%', maxWidth: '1000px', margin: '0 auto' }}>
+        {/* PLAYER DENGAN FIX REFERRER & SANDBOX UNTUK VIDOY/DOOD */}
         <div style={{ position: 'relative', paddingTop: '56.25%', background: '#111', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 0 20px rgba(229, 9, 20, 0.2)' }}>
-          <iframe src={video.url} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }} allowFullScreen />
+          <iframe 
+            src={video.url} 
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }} 
+            allowFullScreen 
+            referrerPolicy="no-referrer"
+            sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-top-navigation"
+          />
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '20px' }}>
