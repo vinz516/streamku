@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { createClient } from '@supabase/supabase-js'
 
 const SB_URL = "https://ezliayzfvvlmzhydcclt.supabase.co"
-const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6bGlheXpmdnZsbXpoeWRjY2x0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNDc0NjQsImV4cCI6MjA4ODUzNjIyNH0.d5z4gNhxDulmZOol_fcEEmQNLNflejoLLuxxzRAmF9I"
+const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6bGlheXpmdnZsbXpoeWRjY2x0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNDc0NjQsImV4cCI6MjA4ODYyMzQ2NH0.d5z4gNhxDulmZOol_fcEEmQNLNflejoLLuxxzRAmF9I"
 const PASSWORD_ADMIN = "130903" 
 const supabase = createClient(SB_URL, SB_KEY)
 
@@ -136,6 +136,7 @@ export default function Admin() {
         </div>
       </div>
 
+      {/* --- PANEL BULK COPY (STICKY) --- */}
       <div style={{ background: '#222', padding: '15px', borderRadius: '10px', marginBottom: '20px', position: 'sticky', top: '10px', zIndex: 100, border: '1px solid #444', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
         <div>
           <button onClick={selectAll} style={{ padding: '8px 15px', background: '#444', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', marginRight: '10px' }}>
@@ -164,6 +165,7 @@ export default function Admin() {
               position: 'relative'
             }}
           >
+            {/* Checkbox Visual */}
             <div style={{ position: 'absolute', top: '5px', left: '5px', zIndex: 5, width: '20px', height: '20px', background: selectedIds.includes(v.id) ? '#27ae60' : '#fff', border: '1px solid #000', borderRadius: '3px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               {selectedIds.includes(v.id) && <span style={{ color: '#fff', fontSize: '12px' }}>✓</span>}
             </div>
