@@ -56,7 +56,6 @@ export default function WatchPage() {
 
   const handleCuanClick = (e) => {
     if (e) e.preventDefault();
-    
     let sessionClicks = parseInt(sessionStorage.getItem('total_clicks') || '0');
     sessionClicks++;
     sessionStorage.setItem('total_clicks', sessionClicks);
@@ -71,9 +70,7 @@ export default function WatchPage() {
       let count = parseInt(localStorage.getItem('popup_count') || '0');
       localStorage.setItem('popup_count', (count + 1).toString());
       setShowAgePopup(false);
-      setTimeout(() => {
-        window.open(targetUrl, '_blank');
-      }, 500);
+      setTimeout(() => { window.open(targetUrl, '_blank'); }, 500);
     } else {
       window.open(targetUrl, '_blank');
     }
@@ -103,7 +100,6 @@ export default function WatchPage() {
 
   return (
     <div style={{ backgroundColor: '#000', color: '#fff', minHeight: '100vh', fontFamily: 'sans-serif', position: 'relative' }}>
-      
       {showAgePopup && (
         <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.98)', zIndex: 99999, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
           <div style={{ background: '#111', padding: '30px', borderRadius: '15px', textAlign: 'center', maxWidth: '400px', border: '1px solid #E50914', boxShadow: '0 0 40px rgba(229, 9, 20, 0.4)' }}>
@@ -122,14 +118,13 @@ export default function WatchPage() {
       </nav>
 
       <div style={{ padding: '20px 5%', maxWidth: '1000px', margin: '0 auto' }}>
-        {/* PLAYER DENGAN FIX REFERRER & SANDBOX UNTUK VIDOY/DOOD */}
+        {/* PLAYER VERSI AWAL - TANPA SANDBOX */}
         <div style={{ position: 'relative', paddingTop: '56.25%', background: '#111', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 0 20px rgba(229, 9, 20, 0.2)' }}>
           <iframe 
             src={video.url} 
             style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }} 
             allowFullScreen 
             referrerPolicy="no-referrer"
-            sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-top-navigation"
           />
         </div>
 
@@ -158,19 +153,6 @@ export default function WatchPage() {
             <button onClick={() => shareTo('fb')} style={{ background: '#1877F2', color: '#fff', border: 'none', padding: '10px 15px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.75rem', fontWeight: 'bold' }}>Facebook</button>
             <button onClick={() => shareTo('copy')} style={{ background: '#333', color: '#fff', border: 'none', padding: '10px 15px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.75rem', fontWeight: 'bold' }}>Salin Link</button>
           </div>
-          <div style={{ height: '1px', background: '#222', width: '100%', marginBottom: '30px' }}></div>
-        </div>
-
-        <h3 style={{ fontSize: '1rem', color: '#E50914', marginBottom: '15px' }}>REKOMENDASI UNTUKMU</h3>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))', gap: '15px' }}>
-          {related.map((v) => (
-            <a href={`/watch/${v.id}`} key={v.id} style={{ textDecoration: 'none', color: 'inherit' }}>
-              <div style={{ position: 'relative', paddingTop: '145%', background: '#111', borderRadius: '8px', overflow: 'hidden', border: '1px solid #222' }}>
-                <img src={`https://images.weserv.nl/?url=${encodeURIComponent(v.thumbnail)}&w=300`} referrerPolicy="no-referrer" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-              </div>
-              <p style={{ fontSize: '0.7rem', marginTop: '8px', textAlign: 'center', height: '2.4em', overflow: 'hidden' }}>{v.title}</p>
-            </a>
-          ))}
         </div>
       </div>
     </div>
